@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Medicamentos com Alergia</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style/index.css">
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-label">Registro pessoal de saúde</div>
+    <h1>Medicamentos com Alergia</h1>
+    <div class="header-paciente" id="header-paciente">
+      <!-- preenchido via JS -->
+    </div>
+    <div class="header-alert">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      Informe sempre esta lista antes de qualquer procedimento médico
+    </div>
+  </div>
+</header>
+
+<!-- Estado: sem CPF -->
+<div id="estado-sem-cpf">
+  <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="9" x2="17" y2="9"/>
+    <line x1="7" y1="13" x2="13" y2="13"/>
+  </svg>
+  <h2>Nenhum CPF informado</h2>
+  <p>Acesse a página passando o CPF do paciente como parâmetro na URL:</p>
+  <div class="url-exemplo">alergias.html?cpf=12345678900</div>
+</div>
+
+<!-- Estado: CPF inválido -->
+<div id="estado-cpf-invalido"></div>
+
+<!-- Conteúdo principal -->
+<div class="page-body" id="page-body" style="display:none">
+
+  <div class="search-wrap">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <input type="search" id="search" placeholder="Buscar por nome ou princípio ativo…" autocomplete="off" />
+    <button class="clear-btn" id="clear-btn" title="Limpar">✕</button>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-view="all">Todos</button>
+    <button class="tab" data-view="multi">Múltiplos medicamentos</button>
+  </div>
+
+  <div class="stats">
+    <div class="stats-count" id="stats-count"></div>
+  </div>
+
+  <div id="med-list">
+    <div class="skeleton-card"><div class="skel wide"></div><div class="skel short"></div></div>
+    <div class="skeleton-card"><div class="skel wide"></div><div class="skel short"></div></div>
+    <div class="skeleton-card"><div class="skel wide"></div><div class="skel short"></div></div>
+  </div>
+
+  <div id="empty">
+    <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <p>Nenhum resultado para "<span id="empty-term"></span>".</p>
+  </div>
+
+</div>
+
+<footer class="page-footer">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+  </svg>
+  Uso pessoal e confidencial — não substitui orientação médica profissional
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
