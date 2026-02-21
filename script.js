@@ -40,8 +40,7 @@
         method: "GET",
         headers: {
           "Content-Type": "application/json"
-        },
-        credentials: 'include'
+        }
       });
 
       // CPF não encontrado
