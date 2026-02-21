@@ -1,9 +1,14 @@
-// ─────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────
+  // CONFIGURAÇÃO DA API
+  // ─────────────────────────────────────────────────────────
+  const API_URL = "https://devhealthwestus-gahvedd0c6czeuft.westus-01.azurewebsites.net/api/GetHealthFunctionStatusAsync";
+  // ─────────────────────────────────────────────────────────
   // 1. LER O CPF DA URL
   //    Aceita qualquer um desses formatos:
   //      ?cpf=12345678900
   //      ?cpf=123.456.789-00
   // ─────────────────────────────────────────────────────────
+
   const params   = new URLSearchParams(window.location.search);
   const cpfRaw   = params.get('cpf');                          // valor bruto da URL
   const cpfLimpo = cpfRaw ? cpfRaw.replace(/\D/g, '') : null; // só dígitos
@@ -30,40 +35,36 @@
   //    sua API:  fetch(`/api/alergias?cpf=${cpf}`)
   // ─────────────────────────────────────────────────────────
   async function fetchMedicamentosComAlergia(cpf) {
-    await new Promise(res => setTimeout(res, 900)); // simula latência de rede
+    try {
+      const response = await fetch(`${API_URL}/${cpf}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
 
-    // Banco simulado por CPF — substitua pela sua API real
-    const baseDados = {
-      '12345678909': {
-        nome: 'Maria Oliveira',
-        meds: [
-          { nome: 'Amoxicilina',     principioAtivo: 'Amoxicilina tri-hidratada' },
-          { nome: 'Amoxil',          principioAtivo: 'Amoxicilina tri-hidratada' },
-          { nome: 'Clavulin',        principioAtivo: 'Amoxicilina tri-hidratada' },
-          { nome: 'Dipirona Sódica', principioAtivo: 'Metamizol sódico' },
-          { nome: 'Novalgina',       principioAtivo: 'Metamizol sódico' },
-          { nome: 'Nimesulida',      principioAtivo: 'Nimesulida' },
-          { nome: 'Ibuprofeno',      principioAtivo: 'Ibuprofeno' },
-          { nome: 'Advil',           principioAtivo: 'Ibuprofeno' },
-        ]
-      },
-      '98765432100': {
-        nome: 'João Silva',
-        meds: [
-          { nome: 'Penicilina G',    principioAtivo: 'Benzilpenicilina potássica' },
-          { nome: 'Bactrim',         principioAtivo: 'Sulfametoxazol + Trimetoprim' },
-          { nome: 'Sulfametoxazol',  principioAtivo: 'Sulfametoxazol + Trimetoprim' },
-          { nome: 'AAS',             principioAtivo: 'Ácido acetilsalicílico' },
-          { nome: 'Aspirina',        principioAtivo: 'Ácido acetilsalicílico' },
-        ]
-      }
-    };
+      // CPF não encontrado
+      if (response.status === 404) return null;
 
-    const registro = baseDados[cpf];
-    if (!registro) return null; // CPF não encontrado
-    return registro;
+      // Erro inesperado
+      if (!response.ok) throw new Error(`Erro na API: ${response.status}`);
+
+      // Sucesso — mapeia o retorno para o formato esperado
+      const data = await response.json();
+
+      return {
+        //nome: "Paciente",  
+        meds: data.map(item => ({
+          nome:           item.Nome,
+          principioAtivo: item.AtivoPrincipal
+        }))
+      };
+
+    } catch (error) {
+      console.error("Erro ao buscar medicamentos:", error);
+      return null;
+    }
   }
-
   // ─────────────────────────────────────────────────────────
   // 3. ESTADO
   // ─────────────────────────────────────────────────────────
