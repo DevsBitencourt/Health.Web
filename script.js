@@ -37,10 +37,7 @@
   async function fetchMedicamentosComAlergia(cpf) {
     try {
       const response = await fetch(`${API_URL}/${cpf}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json"
-        }
+        method: "GET"
       });
 
       // CPF não encontrado
