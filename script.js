@@ -92,10 +92,13 @@
     const statsEl = document.getElementById('stats-count');
     const q       = query.trim().toLowerCase();
 
-    let filtrados = todosMeds.filter(m =>
-      m.nome.toLowerCase().includes(q) ||
-      m.ativoPrincipal.toLowerCase().includes(q)
-    );
+    let filtrados = todosMeds
+       .filter(m => m && m.nome && m.principioAtivo) // remove itens quebrados
+       .filter(m =>
+               m.nome.toLowerCase().includes(q) ||
+               m.principioAtivo.toLowerCase().includes(q)
+              );
+
 
     let grupos = agrupar(filtrados);
     if (viewMode === 'multi') {
