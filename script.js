@@ -94,7 +94,7 @@
 
     let filtrados = todosMeds.filter(m =>
       m.nome.toLowerCase().includes(q) ||
-      m.principioAtivo.toLowerCase().includes(q)
+      m.ativoPrincipal.toLowerCase().includes(q)
     );
 
     let grupos = agrupar(filtrados);
