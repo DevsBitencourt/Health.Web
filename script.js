@@ -52,8 +52,8 @@
       return {
         //nome: "Paciente",  
         meds: data.map(item => ({
-          nome:           item.Nome,
-          principioAtivo: item.AtivoPrincipal
+          nome:           item.nome,
+          principioAtivo: item.ativoPrincipal
         }))
       };
 
